@@ -9,7 +9,7 @@ func WithRetries(action Action, attempts int) Action {
 	return func() error {
 		for i := 0; i < attempts; i++ {
 			err = action()
-			if err == nil { // there is no errors
+			if err == nil {
 				return nil
 			}
 		}
