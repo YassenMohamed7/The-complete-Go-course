@@ -1,0 +1,25 @@
+package tax
+
+import "fmt"
+
+type TaxIncludedPrices struct {
+	TaxRate           float64
+	InputPrices       []float64
+	TaxIncludedPrices map[string]float64
+}
+
+func New(taxRate float64, inputPrices []float64) *TaxIncludedPrices {
+	return &TaxIncludedPrices{
+		TaxRate:           taxRate,
+		InputPrices:       inputPrices,
+		TaxIncludedPrices: make(map[string]float64),
+	}
+}
+
+func (job *TaxIncludedPrices) Process() {
+	result := make(map[string]float64)
+	for _, price := range job.InputPrices {
+		result[fmt.Sprintf("%.2f", price)] = price * (1 + job.TaxRate/100)
+	}
+	job.TaxIncludedPrices = result
+}
